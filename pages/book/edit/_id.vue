@@ -69,7 +69,7 @@ Component.registerHooks(['beforeRouteEnter'])
 })
 export default class BookIndex extends Vue {
   // data
-  private book = ''
+  private book: any = {}
   private date = ''
   private menu = false
 
@@ -97,7 +97,8 @@ export default class BookIndex extends Vue {
     this.$emit('update-book-info', {
       id: this.$route.params.id,
       readDate: this.date,
-      // memo: this.book.memo
+      image: this.book.img,
+      memo: this.book.memo
     })
   }
 }

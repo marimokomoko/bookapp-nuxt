@@ -11,21 +11,28 @@
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator'
+import { Book } from '@/types/book'
 const STORAGE_KEY = 'books'
 
 @Component({
   name: 'BookHome',
-  components: {
-  },
+  components: {},
 })
-
 export default class BookHome extends Vue {
-    // data
-    private books: Object[] = []
-    private newBook = null
-    // private STORAGE_KEY = 'books'
+  // data
+  private books: Book[] = [{
+    id: 0,
+    readDate: '',
+    memo: '',
+    title: '',
+    image: '',
+    description: '',
+  }]
 
-    created() {
+  private newBook = null
+  // private STORAGE_KEY = 'books'
+
+  created() {
     if (localStorage.getItem(STORAGE_KEY)) {
       try {
         this.books = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
@@ -35,59 +42,66 @@ export default class BookHome extends Vue {
     }
   }
 
-    addBook(e: any) {
-      this.books.push({
-        id: this.books.length,
-        title: e.title,
-        image: e.image,
-        description: e.description,
-        readDate: '',
-        memo: '',
-      })
-      // this.newBook = '';
-      this.saveBooks()
-      // 最後に追加したidの取得コード
-      console.log(this.books.slice(-1)[0])
-    //   this.goToEditPage(this.books.slice(-1)[0].id)
-    }
-    
-    removeBook(x: number) {
-      this.books.splice(x, 1)
-      this.saveBooks()
-    }
+  addBook(e: any) {
+    this.books.push({
+      id: this.books.length,
+      title: e.title,
+      image: e.image,
+      description: e.description,
+      readDate: '',
+      memo: '',
+    })
+    // this.newBook = '';
+    this.saveBooks()
+    // 最後に追加したidの取得コード
+    // console.log(Object.values(this.books.slice(-1)[0])[0])
 
-    saveBooks() {
-      const parsed = JSON.stringify(this.books)
-      localStorage.setItem(STORAGE_KEY, parsed)
-    }
+    this.goToEditPage(this.books.slice(-1)[0].id)
+    // this.goToEditPage(Object.values(this.books.slice(-1)[0])[0])
+  }
 
-    updateBookInfo(e: { id: number; readDate: any; memo: any }) {
-      const updateInfo = {
-        id: e.id,
-        readDate: e.readDate,
-        memo: e.memo,
-        // title: this.books[e.id].title,
-        // image: this.books[e.id].image,
-        // description: this.books[e.id].description,
-      }
-      this.books.splice(e.id, 1, updateInfo)
-      this.saveBooks()
-      this.$router.push('/book')
-    }
+  removeBook(x: number) {
+    this.books.splice(x, 1)
+    this.saveBooks()
+  }
 
-    goToEditPage(id: number) {
-      this.$router.push(`/book/edit/${id}`)
-    }
+  saveBooks() {
+    const parsed = JSON.stringify(this.books)
+    localStorage.setItem(STORAGE_KEY, parsed)
+  }
 
-    deleteLocalStorage() {
-      const isDeleted = '本当に削除してもよろしいですか？'
-      if (window.confirm(isDeleted)) {
-        localStorage.setItem(STORAGE_KEY, '')
-        localStorage.removeItem(STORAGE_KEY)
-        this.books = []
-        window.location.reload()
-      }
+  updateBookInfo(e: any) {
+    const updateInfo = {
+      id: e.id,
+      readDate: e.readDate,
+      memo: e.memo,
+      //   title: (Object.values(this.books[e.id])[3]),
+      //   image: (Object.values(this.books[e.id])[4]),
+      //   description: (Object.values(this.books[e.id])[5]),
+      title: this.books[e.id].title,
+      image: this.books[e.id].image,
+      description: this.books[e.id].description,
     }
+    console.log(e)
+    console.log(updateInfo)
+    this.books.splice(e.id, 1, updateInfo)
+    this.saveBooks()
+    this.$router.push('/book')
+  }
+
+  goToEditPage(id: number) {
+    this.$router.push(`/book/edit/${id}`)
+  }
+
+  deleteLocalStorage() {
+    const isDeleted = '本当に削除してもよろしいですか？'
+    if (window.confirm(isDeleted)) {
+      localStorage.setItem(STORAGE_KEY, '')
+      localStorage.removeItem(STORAGE_KEY)
+      this.books = []
+      window.location.reload()
+    }
+  }
 }
 
 // export default {
