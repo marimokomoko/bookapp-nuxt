@@ -50,29 +50,30 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Vue, Component } from 'nuxt-property-decorator'
 import ButtonItem from '@/components/ButtonItem.vue'
 import TitleItem from '@/components/TitleItem.vue'
-export default {
+@Component({
+  name: 'BookSearch',
   components: {
     ButtonItem,
     TitleItem,
   },
-  data() {
-    return {
-      keyword: '',
-      searchResults: [],
-      isFound: true,
-      buttonText: '一覧に戻る',
-      url: '/',
-      color: 'secondary',
-    }
-  },
-  methods: {
-    addBookList(index) {
+})
+export default class BookSearch extends Vue {
+      //data
+      keyword = ''
+      searchResults = []
+      isFound = true
+      buttonText = '一覧に戻る'
+      url = '/'
+      color = 'secondary'
+    
+    addBookList(index: any) {
       this.$emit('add-book-list', this.searchResults[index])
-    },
-    async search(keyword) {
+    }
+    async search(keyword: string) {
       this.searchResults = []
       // クエリーストリングを作成
       const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
@@ -106,9 +107,65 @@ export default {
           })
         }
       }
-    },
   },
-}
+},
+
+// export default {
+//   components: {
+//     ButtonItem,
+//     TitleItem,
+//   },
+//   data() {
+//     return {
+//       keyword: '',
+//       searchResults: [],
+//       isFound: true,
+//       buttonText: '一覧に戻る',
+//       url: '/',
+//       color: 'secondary',
+//     }
+//   },
+//   methods: {
+//     addBookList(index) {
+//       this.$emit('add-book-list', this.searchResults[index])
+//     },
+//     async search(keyword) {
+//       this.searchResults = []
+//       // クエリーストリングを作成
+//       const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
+//       const params = {
+//         q: `intitle:${keyword}`,
+//         maxResults: 40,
+//       }
+//       const queryParams = new URLSearchParams(params)
+//       // console.log(baseUrl + queryParams)
+
+//       // fetchでJSON取得
+//       const response = await fetch(baseUrl + queryParams).then((response) =>
+//         response.json()
+//       )
+//       // console.log(response.items)
+
+//       // 検索結果がない場合
+//       if (response.items === undefined) {
+//         this.isFound = false
+//       } else {
+//         this.isFound = true
+//         // 必要な情報を配列にpush
+//         for (const book of response.items) {
+//           const title = book.volumeInfo.title
+//           const img = book.volumeInfo.imageLinks
+//           const description = book.volumeInfo.description
+//           this.searchResults.push({
+//             title: title ? title : '', // eslint-disable-line
+//             image: img ? img.thumbnail : '',
+//             description: description ? description.slice(0, 40) : '',
+//           })
+//         }
+//       }
+//     },
+//   },
+// }
 </script>
 
 <style>
