@@ -52,63 +52,66 @@
 
 <script lang="ts">
 import { Vue, Component } from 'nuxt-property-decorator'
-import ButtonItem from '@/components/ButtonItem.vue'
-import TitleItem from '@/components/TitleItem.vue'
+import TitleItem from '@/components/atoms/TitleItem.vue'
+import ButtonItem from '@/components/atoms/ButtonItem.vue'
+
 @Component({
   name: 'BookSearch',
   components: {
-    ButtonItem,
     TitleItem,
+    ButtonItem
   },
 })
 export default class BookSearch extends Vue {
-      //data
-      keyword = ''
-      searchResults = []
-      isFound = true
-      buttonText = '一覧に戻る'
-      url = '/'
-      color = 'secondary'
-    
-    addBookList(index: any) {
-      this.$emit('add-book-list', this.searchResults[index])
+  // data
+  private keyword = ''
+  private searchResults: Object[] = []
+  private isFound = true
+  private buttonText = '一覧に戻る'
+  private url = '/book'
+  private color = 'secondary'
+  private params = {}
+
+  addBookList(index: any) {
+    this.$emit('add-book-list', this.searchResults[index])
+  }
+
+  async search(keyword: string) {
+    this.searchResults = []
+    // クエリーストリングを作成
+    const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
+    this.params = {
+      q: `intitle:${keyword}`,
+      maxResults: 40,
     }
-    async search(keyword: string) {
-      this.searchResults = []
-      // クエリーストリングを作成
-      const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
-      const params = {
-        q: `intitle:${keyword}`,
-        maxResults: 40,
-      }
-      const queryParams = new URLSearchParams(params)
-      // console.log(baseUrl + queryParams)
+    const queryParams = new URLSearchParams(this.params)
+    // console.log(baseUrl + queryParams)
 
-      // fetchでJSON取得
-      const response = await fetch(baseUrl + queryParams).then((response) =>
-        response.json()
-      )
-      // console.log(response.items)
+    // fetchでJSON取得
+    const response = await fetch(baseUrl + queryParams).then((response) =>
+      response.json()
+    )
+    // console.log(response.items)
 
-      // 検索結果がない場合
-      if (response.items === undefined) {
-        this.isFound = false
-      } else {
-        this.isFound = true
-        // 必要な情報を配列にpush
-        for (const book of response.items) {
-          const title = book.volumeInfo.title
-          const img = book.volumeInfo.imageLinks
-          const description = book.volumeInfo.description
-          this.searchResults.push({
-            title: title ? title : '', // eslint-disable-line
-            image: img ? img.thumbnail : '',
-            description: description ? description.slice(0, 40) : '',
-          })
-        }
+    // 検索結果がない場合
+    if (response.items === undefined) {
+      this.isFound = false
+    } else {
+      this.isFound = true
+      // 必要な情報を配列にpush
+      for (const book of response.items) {
+        const title = book.volumeInfo.title
+        const img = book.volumeInfo.imageLinks
+        const description = book.volumeInfo.description
+        this.searchResults.push({
+          title: title || '',
+          image: img ? img.thumbnail : '',
+          description: description ? description.slice(0, 40) : '',
+        })
       }
-  },
-},
+    }
+  }
+}
 
 // export default {
 //   components: {

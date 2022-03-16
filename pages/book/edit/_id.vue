@@ -51,15 +51,37 @@
   </div>
 </template>
 
-<script>
-import TitleItem from '@/components/TitleItem.vue'
-export default {
+<script lang="ts">
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import VueRouter from 'vue-router'
+import TitleItem from '@/components/atoms/TitleItem.vue'
+import ButtonItem from '@/components/atoms/ButtonItem.vue'
+
+// Hook しないとbeforeRouteEnterが使えない
+Component.registerHooks(['beforeRouteEnter'])
+
+@Component({
+  name: 'BookIndex',
   components: {
     TitleItem,
+    ButtonItem,
   },
-  // 表示を遅らせる(AppよりもEditが先に表示されるとうまくデータが渡せないため)
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
+})
+export default class BookIndex extends Vue {
+  // data
+  private book = ''
+  private date = ''
+  private menu = false
+
+  @Prop({
+    type: Array,
+    default: () => {},
+  })
+  books!: string // 感嘆符(!)を付けることで、TSに値が確実に割り当てられている事を伝えられる
+
+  // 表示を遅らせる(BookよりもEditが先に表示されるとうまくデータが渡せないため)
+  beforeRouteEnter(to: VueRouter, from: VueRouter, next: any) { // eslint-disable-line
+    next((vm: any) => {
       vm.book = vm.books[vm.$route.params.id]
       if (vm.book.readDate) {
         vm.date = vm.book.readDate
@@ -69,29 +91,15 @@ export default {
           .substr(0, 10)
       }
     })
-  },
-  props: {
-    books: {
-      type: Array,
-      default: () => {},
-    },
-  },
-  data() {
-    return {
-      book: '',
-      date: '',
-      menu: false,
-    }
-  },
-  methods: {
-    updateBookInfo() {
-      this.$emit('update-book-info', {
-        id: this.$route.params.id,
-        readDate: this.date,
-        memo: this.book.memo,
-      })
-    },
-  },
+  }
+
+  updateBookInfo() {
+    this.$emit('update-book-info', {
+      id: this.$route.params.id,
+      readDate: this.date,
+      // memo: this.book.memo
+    })
+  }
 }
 </script>
 

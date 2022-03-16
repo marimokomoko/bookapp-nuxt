@@ -38,24 +38,44 @@
   </div>
 </template>
 
-<script>
-import TitleItem from '@/components/TitleItem.vue'
-export default {
+<script lang="ts">
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+import TitleItem from '@/components/atoms/TitleItem.vue'
+
+@Component({
+  name: 'BookIndex',
   components: {
     TitleItem,
   },
-  props: {
-    books: {
-      type: Array,
-      default: () => {},
-    },
-  },
-  methods: {
-    deleteLocalStorage() {
-      this.$emit('delete-local-storage')
-    },
-  },
+})
+export default class BookIndex extends Vue {
+  @Prop({
+    type: Array,
+    default: () => {},
+  })
+  books!: string // 感嘆符(!)を付けることで、TSに値が確実に割り当てられている事を伝えられる
+
+  deleteLocalStorage() {
+    this.$emit('delete-local-storage')
+  }
 }
+
+// export default {
+//   components: {
+//     TitleItem,
+//   },
+//   props: {
+//     books: {
+//       type: Array,
+//       default: () => {},
+//     },
+//   },
+//   methods: {
+//     deleteLocalStorage() {
+//       this.$emit('delete-local-storage')
+//     },
+//   },
+// }
 </script>
 
 <style>
