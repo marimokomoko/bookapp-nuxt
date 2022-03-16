@@ -28,7 +28,7 @@ export default class BookHome extends Vue {
     created() {
     if (localStorage.getItem(STORAGE_KEY)) {
       try {
-        this.books = JSON.parse(localStorage.getItem(STORAGE_KEY))
+        this.books = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
       } catch (e) {
         // localStorage.removeItem(STORAGE_KEY)
       }
@@ -47,8 +47,8 @@ export default class BookHome extends Vue {
       // this.newBook = '';
       this.saveBooks()
       // 最後に追加したidの取得コード
-      // console.log(this.books.slice(-1)[0].id)
-      this.goToEditPage(this.books.slice(-1)[0].id)
+      console.log(this.books.slice(-1)[0])
+    //   this.goToEditPage(this.books.slice(-1)[0].id)
     }
     
     removeBook(x: number) {
@@ -61,14 +61,14 @@ export default class BookHome extends Vue {
       localStorage.setItem(STORAGE_KEY, parsed)
     }
 
-    updateBookInfo(e) {
+    updateBookInfo(e: { id: number; readDate: any; memo: any }) {
       const updateInfo = {
         id: e.id,
         readDate: e.readDate,
         memo: e.memo,
-        title: this.books[e.id].title,
-        image: this.books[e.id].image,
-        description: this.books[e.id].description,
+        // title: this.books[e.id].title,
+        // image: this.books[e.id].image,
+        // description: this.books[e.id].description,
       }
       this.books.splice(e.id, 1, updateInfo)
       this.saveBooks()
