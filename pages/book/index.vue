@@ -3,7 +3,7 @@
     <TitleItem>BookIndex</TitleItem>
     <v-row>
       <v-col cols="8">
-        <v-btn color="primary" to="/book/search">検索する</v-btn>
+        <v-btn color="primary" class="mb-3" to="/book/search">検索する</v-btn>
       </v-col>
       <v-col cols="4">
         <v-btn color="error" @click="deleteLocalStorage"> 削除する </v-btn>
@@ -14,11 +14,12 @@
         <v-card>
           <v-row>
             <v-col cols="4">
-              <v-img :src="book.image"></v-img>
+              <v-img class="ml-3" :src="book.image"></v-img>
             </v-col>
             <v-col cols="8">
               <v-card-title>{{ book.title }}</v-card-title>
-              読んだ日: {{ book.readDate }} 感想: {{ book.memo }}
+              読んだ日: {{ book.readDate }}<br />
+              感想: {{ book.memo }}
               <v-spacer />
               <v-card-actions>
                 <v-btn
@@ -48,7 +49,10 @@ import TitleItem from '@/components/atoms/TitleItem.vue'
     TitleItem,
   },
 })
+
 export default class BookIndex extends Vue {
+  private test:boolean = true
+
   @Prop({
     type: Array,
     default: () => {},
@@ -56,26 +60,11 @@ export default class BookIndex extends Vue {
   books!: string // 感嘆符(!)を付けることで、TSに値が確実に割り当てられている事を伝えられる
 
   deleteLocalStorage() {
+    // 削除：親へ渡す
     this.$emit('delete-local-storage')
   }
-}
 
-// export default {
-//   components: {
-//     TitleItem,
-//   },
-//   props: {
-//     books: {
-//       type: Array,
-//       default: () => {},
-//     },
-//   },
-//   methods: {
-//     deleteLocalStorage() {
-//       this.$emit('delete-local-storage')
-//     },
-//   },
-// }
+}
 </script>
 
 <style>

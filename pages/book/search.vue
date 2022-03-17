@@ -8,7 +8,7 @@
     </v-row>
     <v-row>
       <v-col cols="3">
-        <v-btn color="primary" @click="search(keyword)">検索する</v-btn>
+        <v-btn color="primary" class="mb-3" @click="search(keyword)">検索する</v-btn>
       </v-col>
       <v-col cols="3">
         <ButtonItem :button-text="buttonText" :url="url" :color="color" />
@@ -25,7 +25,7 @@
         <v-card class="mx-auto mb-4">
           <v-row>
             <v-col cols="4">
-              <v-img :src="book.image"></v-img>
+              <v-img class="ml-3" :src="book.image"></v-img>
             </v-col>
             <v-col col="8">
               <v-card-title>{{ book.title }}</v-card-title>
@@ -59,20 +59,21 @@ import ButtonItem from '@/components/atoms/ButtonItem.vue'
   name: 'BookSearch',
   components: {
     TitleItem,
-    ButtonItem
+    ButtonItem,
   },
 })
 export default class BookSearch extends Vue {
   // data
   private keyword = ''
   private searchResults: Object[] = []
-  private isFound = true
+  private isFound = true // 検索結果0の時に使用
   private buttonText = '一覧に戻る'
   private url = '/book'
   private color = 'secondary'
   private params = {}
 
   addBookList(index: any) {
+    console.log(index)
     this.$emit('add-book-list', this.searchResults[index])
   }
 
@@ -85,12 +86,9 @@ export default class BookSearch extends Vue {
       maxResults: 40,
     }
     const queryParams = new URLSearchParams(this.params)
-    // console.log(baseUrl + queryParams)
 
-    // fetchでJSON取得
-    const response = await fetch(baseUrl + queryParams).then((response) =>
-      response.json()
-    )
+    // axios : importは必要ない(NuxtPJ作成時にaxiosを導入したため。nuxt.comfig.jsにすでに追加されている)
+    const response = await this.$axios.$get(baseUrl + queryParams)
     // console.log(response.items)
 
     // 検索結果がない場合
@@ -112,63 +110,6 @@ export default class BookSearch extends Vue {
     }
   }
 }
-
-// export default {
-//   components: {
-//     ButtonItem,
-//     TitleItem,
-//   },
-//   data() {
-//     return {
-//       keyword: '',
-//       searchResults: [],
-//       isFound: true,
-//       buttonText: '一覧に戻る',
-//       url: '/',
-//       color: 'secondary',
-//     }
-//   },
-//   methods: {
-//     addBookList(index) {
-//       this.$emit('add-book-list', this.searchResults[index])
-//     },
-//     async search(keyword) {
-//       this.searchResults = []
-//       // クエリーストリングを作成
-//       const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
-//       const params = {
-//         q: `intitle:${keyword}`,
-//         maxResults: 40,
-//       }
-//       const queryParams = new URLSearchParams(params)
-//       // console.log(baseUrl + queryParams)
-
-//       // fetchでJSON取得
-//       const response = await fetch(baseUrl + queryParams).then((response) =>
-//         response.json()
-//       )
-//       // console.log(response.items)
-
-//       // 検索結果がない場合
-//       if (response.items === undefined) {
-//         this.isFound = false
-//       } else {
-//         this.isFound = true
-//         // 必要な情報を配列にpush
-//         for (const book of response.items) {
-//           const title = book.volumeInfo.title
-//           const img = book.volumeInfo.imageLinks
-//           const description = book.volumeInfo.description
-//           this.searchResults.push({
-//             title: title ? title : '', // eslint-disable-line
-//             image: img ? img.thumbnail : '',
-//             description: description ? description.slice(0, 40) : '',
-//           })
-//         }
-//       }
-//     },
-//   },
-// }
 </script>
 
 <style>

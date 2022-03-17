@@ -6,7 +6,7 @@
         <v-card class="mx-auto">
           <v-row>
             <v-col cols="4">
-              <v-img :src="book.image"></v-img>
+              <v-img class="ml-3" :src="book.image"></v-img>
             </v-col>
             <v-col cols="8">
               <v-card-title>{{ book.title }}</v-card-title>
@@ -72,6 +72,9 @@ export default class BookIndex extends Vue {
   private book: any = {}
   private date = ''
   private menu = false
+  private buttonText = '一覧に戻る'
+  private url = '/book'
+  private color = 'secondary'
 
   @Prop({
     type: Array,
@@ -82,7 +85,10 @@ export default class BookIndex extends Vue {
   // 表示を遅らせる(BookよりもEditが先に表示されるとうまくデータが渡せないため)
   beforeRouteEnter(to: VueRouter, from: VueRouter, next: any) { // eslint-disable-line
     next((vm: any) => {
+    console.log('beforeRouteEnter')
       vm.book = vm.books[vm.$route.params.id]
+    console.log(vm.book)
+    console.log(vm.books)
       if (vm.book.readDate) {
         vm.date = vm.book.readDate
       } else {
@@ -94,6 +100,7 @@ export default class BookIndex extends Vue {
   }
 
   updateBookInfo() {
+    console.log('保存した押下')
     this.$emit('update-book-info', {
       id: this.$route.params.id,
       readDate: this.date,
