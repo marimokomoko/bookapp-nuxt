@@ -5,22 +5,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export type DataType = {
-  value: string
-  enable: boolean
-  count: number
+import { Vue, Component } from 'nuxt-property-decorator'
+@Component({})
+export default class TestPage extends Vue {
 }
-
-export default Vue.extend({
-  name: 'TestPage',
-  data(): DataType {
-    return {
-      value: 'hoge',
-      enable: true,
-      count: 0,
-    }
-  },
-})
 </script>

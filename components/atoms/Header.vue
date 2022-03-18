@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" fixed app>
+    <v-navigation-drawer v-model="drawer" fixed app color="purple lighten-5">
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -18,7 +18,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar fixed app>
+    <v-app-bar fixed app color="purple lighten-2">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
     </v-app-bar>

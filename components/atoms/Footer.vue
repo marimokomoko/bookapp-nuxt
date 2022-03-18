@@ -1,5 +1,5 @@
 <template>
-  <v-footer :absolute="!fixed" app>
+  <v-footer :absolute="!fixed" app color="purple lighten-3">
     <span>&copy; {{ new Date().getFullYear() }}</span>
   </v-footer>
 </template>

@@ -11,7 +11,7 @@
     </v-row>
     <v-row>
       <v-col v-for="book in books" :key="book.id" cols="12" md="6" class="mb-4">
-        <v-card>
+        <v-card color="grey lighten-4">
           <v-row>
             <v-col cols="4">
               <v-img class="ml-3" :src="book.image"></v-img>

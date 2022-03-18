@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`画面レイアウト スナップショットテスト 1`] = `
+"<v-row class=\\"button\\">
+  <v-col>
+    <v-btn min-width=\\"110\\">
+
+    </v-btn>
+  </v-col>
+</v-row>"
+`;

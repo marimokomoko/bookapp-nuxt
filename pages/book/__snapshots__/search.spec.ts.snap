@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`画面レイアウト スナップショットテスト 1`] = `
+"<div>
+  <h1>BookSearch</h1>
+  <v-row>
+    <v-col cols=\\"6\\">
+      <v-text-field label=\\"本のタイトルを検索\\"></v-text-field>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols=\\"3\\">
+      <v-btn color=\\"primary\\" class=\\"mb-3\\">検索する</v-btn>
+    </v-col>
+    <v-col cols=\\"3\\">
+      <v-row class=\\"button\\">
+        <v-col>
+          <v-btn min-width=\\"110\\" to=\\"/book\\" color=\\"secondary\\">
+            一覧に戻る
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
+  <div class=\\"mt-4\\" style=\\"display: none;\\">検索結果は０件でした。</div>
+  <v-row></v-row>
+</div>"
+`;
