@@ -7,20 +7,17 @@
     </v-col>
   </v-row>
 </template>
-<script>
-export default {
-  props: {
-    buttonText: {
-      type: String,
-      required: true,
-    },
-    url: {
-      type: String,
-      required: true,
-    },
-    color: {
-      type: String,
-    },
-  },
-};
+<script lang="ts">
+import { Vue, Component, Prop } from 'nuxt-property-decorator'
+@Component({})
+export default class ButtonItem extends Vue {
+  @Prop({ type: String, required: true })
+  buttonText!: string
+
+  @Prop({ type: String, required: true })
+  url!: string
+
+  @Prop({ type: String, required: true })
+  color!: string
+}
 </script>

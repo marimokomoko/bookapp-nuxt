@@ -20,7 +20,6 @@
               <v-card-title>{{ book.title }}</v-card-title>
               読んだ日: {{ book.readDate }}<br />
               感想: {{ book.memo }}
-              <v-spacer />
               <v-card-actions>
                 <v-btn
                   :to="{ name: 'book-edit-id', params: { id: book.id } }"
@@ -42,28 +41,16 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import TitleItem from '@/components/atoms/TitleItem.vue'
-
-@Component({
-  name: 'BookIndex',
-  components: {
-    TitleItem,
-  },
-})
-
+@Component({ components: { TitleItem } })
 export default class BookIndex extends Vue {
-  private test:boolean = true
-
-  @Prop({
-    type: Array,
-    default: () => {},
-  })
+  private test: boolean = true
+  @Prop({type: Array, default: () => {}})
   books!: string // 感嘆符(!)を付けることで、TSに値が確実に割り当てられている事を伝えられる
 
   deleteLocalStorage() {
     // 削除：親へ渡す
     this.$emit('delete-local-storage')
   }
-
 }
 </script>
 

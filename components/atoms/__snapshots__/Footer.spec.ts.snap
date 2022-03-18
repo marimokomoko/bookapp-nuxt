@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`画面レイアウト スナップショットテスト 1`] = `"<v-footer absolute=\\"true\\" app=\\"\\"><span>© 2022</span></v-footer>"`;

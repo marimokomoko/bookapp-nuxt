@@ -4,13 +4,11 @@
   </v-footer>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      fixed: false,
-    }
-  },
+<script lang="ts">
+import { Vue, Component } from 'nuxt-property-decorator'
+@Component({})
+export default class Footer extends Vue {
+  private fixed = false
 }
 </script>
 

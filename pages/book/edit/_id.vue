@@ -56,18 +56,10 @@ import { Vue, Component, Prop } from 'nuxt-property-decorator'
 import VueRouter from 'vue-router'
 import TitleItem from '@/components/atoms/TitleItem.vue'
 import ButtonItem from '@/components/atoms/ButtonItem.vue'
-
 // Hook しないとbeforeRouteEnterが使えない
 Component.registerHooks(['beforeRouteEnter'])
-
-@Component({
-  name: 'BookIndex',
-  components: {
-    TitleItem,
-    ButtonItem,
-  },
-})
-export default class BookIndex extends Vue {
+@Component({ components: { TitleItem, ButtonItem } })
+export default class BookEdit extends Vue {
   // data
   private book: any = {}
   private date = ''
@@ -76,19 +68,13 @@ export default class BookIndex extends Vue {
   private url = '/book'
   private color = 'secondary'
 
-  @Prop({
-    type: Array,
-    default: () => {},
-  })
+  @Prop({type: Array,default: () => {},})
   books!: string // 感嘆符(!)を付けることで、TSに値が確実に割り当てられている事を伝えられる
 
   // 表示を遅らせる(BookよりもEditが先に表示されるとうまくデータが渡せないため)
   beforeRouteEnter(to: VueRouter, from: VueRouter, next: any) { // eslint-disable-line
     next((vm: any) => {
-    console.log('beforeRouteEnter')
       vm.book = vm.books[vm.$route.params.id]
-    console.log(vm.book)
-    console.log(vm.books)
       if (vm.book.readDate) {
         vm.date = vm.book.readDate
       } else {
@@ -100,7 +86,6 @@ export default class BookIndex extends Vue {
   }
 
   updateBookInfo() {
-    console.log('保存した押下')
     this.$emit('update-book-info', {
       id: this.$route.params.id,
       readDate: this.date,

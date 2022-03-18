@@ -21,31 +21,29 @@
     <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
-      <v-spacer />
     </v-app-bar>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      drawer: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      title: '書籍管理アプリ',
-    }
-  },
+<script lang="ts">
+import { Vue, Component } from 'nuxt-property-decorator'
+@Component({})
+export default class Header extends Vue {
+  private drawer = false
+  private items = [
+    {
+      icon: 'mdi-apps',
+      title: 'Welcome',
+      to: '/',
+    },
+    {
+      icon: 'mdi-chart-bubble',
+      title: 'BookList',
+      to: '/book',
+    },
+  ];
+
+  private title = '書籍管理アプリ';
 }
 </script>
 

@@ -8,7 +8,9 @@
     </v-row>
     <v-row>
       <v-col cols="3">
-        <v-btn color="primary" class="mb-3" @click="search(keyword)">検索する</v-btn>
+        <v-btn color="primary" class="mb-3" @click="search(keyword)"
+          >検索する</v-btn
+        >
       </v-col>
       <v-col cols="3">
         <ButtonItem :button-text="buttonText" :url="url" :color="color" />
@@ -54,14 +56,7 @@
 import { Vue, Component } from 'nuxt-property-decorator'
 import TitleItem from '@/components/atoms/TitleItem.vue'
 import ButtonItem from '@/components/atoms/ButtonItem.vue'
-
-@Component({
-  name: 'BookSearch',
-  components: {
-    TitleItem,
-    ButtonItem,
-  },
-})
+@Component({ components: { TitleItem, ButtonItem } })
 export default class BookSearch extends Vue {
   // data
   private keyword = ''
@@ -73,7 +68,6 @@ export default class BookSearch extends Vue {
   private params = {}
 
   addBookList(index: any) {
-    console.log(index)
     this.$emit('add-book-list', this.searchResults[index])
   }
 
@@ -89,7 +83,6 @@ export default class BookSearch extends Vue {
 
     // axios : importは必要ない(NuxtPJ作成時にaxiosを導入したため。nuxt.comfig.jsにすでに追加されている)
     const response = await this.$axios.$get(baseUrl + queryParams)
-    // console.log(response.items)
 
     // 検索結果がない場合
     if (response.items === undefined) {
